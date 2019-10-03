@@ -1,8 +1,30 @@
 import argparse
 import os.path as osp
-import stanfordnlp
 from glob import glob
 from collections import defaultdict
+
+import nltk
+from nltk import pos_tag
+from nltk.tag import StanfordNERTagger
+from nltk.tokenize import word_tokenize
+
+def process_text(raw_text):
+    token_text = word_tokenize(raw_text)
+    return token_text
+
+
+def stanford_tagger(token_text):
+    st = StanfordNERTagger(model_filename='/home/zal/Devel/OperaSpNLP/res/spanish.ancora.distsim.s512.crf.ser.gz',
+                           path_to_jar='/home/zal/Devel/OperaSpNLP/res/stanford-ner.jar')
+    ne_tagged = st.tag(token_text)
+    return(ne_tagged)
+
+
+def nltk_tagger(token_text):
+    tagged_words = nltk.pos_tag(token_text)
+    ne_tagged = nltk.ne_chunk(tagged_words)
+    return(ne_tagged)
+
 
 def count_and_tuple(input_list):
     count_dict = defaultdict(int)
@@ -27,15 +49,16 @@ def main():
     output_dir = '/home/zal/Devel/OperaSpNLP/output/stanfordnlp/ner'
     file_ext = 'txt' #args.docs_ext
 
-    nlp = stanfordnlp.Pipeline(lang='es', processors='tokenize,mwt,pos')
-
     entity_dict = defaultdict(list)
 
     for file_path in glob(osp.join(docs_dir, f'*.{file_ext}')):
         doc_text = open(file_path, 'r').read()
-        doc = nlp(doc_text)
-        for ent in doc.ents:
-            entity_dict[ent.label_].append(ent.text)
+
+        tags = stanford_tagger(process_text(doc_text))
+
+        for tag in tags:
+            if tag[1] != 'O':
+                entity_dict[tag[1]].append(tag[0])
 
     print(f'Total labels: {len(entity_dict.keys())}')
     print(f'{entity_dict.keys()}')
