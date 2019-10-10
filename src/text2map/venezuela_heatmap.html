@@ -17,7 +17,7 @@
 	<div id="map"></div>
   <script src="js/scripts.js"></script>
   <script type="text/javascript"
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdgMihcsIfPMVdWzfdu0RvdqGZAcPlYSQ&libraries=visualization"></script>
+  src="https://maps.googleapis.com/maps/api/js?key=API-KEY&libraries=visualization"></script>
   <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/maplabel/src/maplabel.js"></script>
 
 <script>
@@ -137,23 +137,6 @@ var heatmap = new google.maps.visualization.HeatmapLayer({
   data: heatmapData
 });
 heatmap.setMap(map);
-
-var markerIcon = {
-  url: 'http://image.flaticon.com/icons/svg/252/252025.svg',
-  scaledSize: new google.maps.Size(80, 80),
-  origin: new google.maps.Point(0, 0),
-  anchor: new google.maps.Point(32,65),
-  labelOrigin: new google.maps.Point(40,33)
-};
-
-var markerLabel = 'OPERA';
-var marker = new google.maps.Marker({
-  map: map,
-  animation: google.maps.Animation.DROP,
-  position: google.maps.LatLng(38.8963005, -77.0496567),
-  icon: markerIcon,
-  label: markerLabel
-});
 
 var icon = {
     url: 'images/map_icon.png'
