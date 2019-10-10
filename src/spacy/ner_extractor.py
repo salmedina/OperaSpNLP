@@ -1,4 +1,3 @@
-import argparse
 import os.path as osp
 import spacy
 from glob import glob
@@ -50,9 +49,5 @@ def main():
 
 
 if __name__ == '__main__':
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('docs_dir', type=str, help='Directory with the documents to be processed')
-    # parser.add_argument('docs_ext', type=str, default='txt', help='File extension of documents to be processed')
-    # args = parser.parse_args()
 
     main()
